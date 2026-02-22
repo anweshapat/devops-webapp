@@ -1,0 +1,20 @@
+name: CI Pipeline - DevOps WebApp
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run Basic HTML Check
+        run: |
+          echo "CI Started"
+          ls -la
+          test -f index.html && echo "index.html found" || exit 1
+          echo "CI Completed Successfully"
