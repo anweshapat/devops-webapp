@@ -18,3 +18,17 @@ jobs:
           ls -la
           test -f index.html && echo "index.html found" || exit 1
           echo "CI Completed Successfully"
+
+      - name: Slack Notification - Success
+        if: success()
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{"text":"✅ SUCCESS: CI passed for devops-webapp on branch main."}' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Slack Notification - Failure
+        if: failure()
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{"text":"❌ FAILED: CI failed for devops-webapp. Check GitHub Actions logs."}' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
